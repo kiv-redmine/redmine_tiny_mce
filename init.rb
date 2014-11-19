@@ -8,9 +8,14 @@ require 'redmine'
 
 ActionDispatch::Reloader.to_prepare do
   require_dependency 'project'
+  require_dependency 'application_helper'
 
   unless Project.included_modules.include?(RedmineTinyMce::Patches::ProjectPatch)
     Project.send(:include, RedmineTinyMce::Patches::ProjectPatch)
+  end
+
+  unless ApplicationHelper.included_modules.include?(RedmineTinyMce::Patches::ApplicationHelperPatch)
+    ApplicationHelper.send(:include, RedmineTinyMce::Patches::ApplicationHelperPatch)
   end
 end
 

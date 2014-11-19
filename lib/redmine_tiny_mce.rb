@@ -9,3 +9,4 @@ require 'redmine_tiny_mce/hooks/project_settings_hook'
 
 # Patches
 require 'redmine_tiny_mce/patches/project_patch'
+require 'redmine_tiny_mce/patches/application_helper_patch'
