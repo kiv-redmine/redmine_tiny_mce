@@ -39,6 +39,8 @@ module RedmineTinyMce
           @heads_for_wiki_formatter_included = true
         end
       end
+
+      module_function :heads_for_wiki_formatter, :wikitoolbar_for
     end
   end
 end
