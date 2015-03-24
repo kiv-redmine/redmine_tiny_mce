@@ -40,6 +40,10 @@ module RedmineTinyMce
         end
       end
 
+      def initial_page_content(page)
+        "<h1>#{ERB::Util.html_escape page.pretty_title}</h1>"
+      end
+
       module_function :heads_for_wiki_formatter, :wikitoolbar_for
     end
   end
