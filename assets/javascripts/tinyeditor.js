@@ -87,7 +87,7 @@ var TinyEditor = {};
                 };
             },
             onChangeFormatBlock = function () {
-                t.ddaction(this, "formatblok");
+                t.ddaction(this, "formatblock");
             },
             onChangeFontName = function () {
                 t.ddaction(this, "fontname");
