@@ -6,10 +6,10 @@ module RedmineTinyMce
         heads_for_wiki_formatter
         javascript_tag <<-EOT
           $(document).ready(function() {
-            new TINY.editor.edit('editor', {
-              id: '#{field_id}',
-              width:584,
-              height:175,
+            new TinyEditor({
+              el: '##{field_id}',
+              width: '100%',
+              height:195,
               cssclass:'te',
               controlclass:'tecontrol',
               rowclass:'teheader',
@@ -17,7 +17,7 @@ module RedmineTinyMce
               controls:['bold','italic','underline','strikethrough','|','subscript','superscript','|',
                     'orderedlist','unorderedlist','|','outdent','indent','|','leftalign',
                     'centeralign','rightalign','blockjustify','|','unformat','|','undo','redo','n',
-                    'font','size','style','|','image','hr','link','unlink','|','cut','copy','paste','print'],
+                    'font','size','style','|','image','hr','link','unlink', '|', 'print'],
               footer:true,
               fonts:['Verdana','Arial','Georgia','Trebuchet MS'],
               xhtml:true,
