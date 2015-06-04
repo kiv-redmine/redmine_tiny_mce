@@ -1,9 +1,8 @@
 var TinyEditor = {};
-(function () { 
-	
+(function () {
     "use strict";
     var isIE = !!document.all;
-        
+
     var cursorTop = function (e) {
         return (isIE ? window.event.clientY + document.documentElement.scrollTop
             + document.body.scrollTop : e.clientY + window.scrollY);
@@ -34,10 +33,12 @@ var TinyEditor = {};
         undo: [18, 'Undo', 'a', 'undo'],
         unorderedlist: [11, 'Insert Unordered List', 'a', 'insertunorderedlist'],
         unformat: [24, 'Remove Formatting', 'a', 'removeformat'],
-        unlink: [23, 'Remove Hyperlink', 'a', 'unlink']
+        unlink: [23, 'Remove Hyperlink', 'a', 'unlink'],
+        vote: [ 26, 'Vote', 'a', 'vote' ],
+        comments: [ 27, 'Comments', 'insertHtml', '{{comments}}{{comment_form}}' ]
     },
-        offset = -30;
-    
+    offset = -30;
+
     var edit = function (el, opt) {
         var t = this,
             id,
@@ -59,8 +60,8 @@ var TinyEditor = {};
             h = document.createElement('div'),
             l = opt.controls.length,
             i = 0;
-        
-            //protected functions
+
+        //protected functions
         var onClick = function (id, x) {
             if (id === 'print') {
                 return function () {
@@ -71,6 +72,11 @@ var TinyEditor = {};
                 return function () {
                     t.action(x[3], 0, x[4] || 0);
                 };
+            }
+            if (x[2] === 'insertHtml') {
+              return function() {
+                t.insertHtml(x[3]);
+              };
             }
             return function () {
                 t.insert(x[4], x[5], x[3]);
@@ -210,7 +216,7 @@ var TinyEditor = {};
         }
         this.e = this.iframe.contentWindow.document;
         this.e.open();
-        var iHTML = '<html><head>', 
+        var iHTML = '<html><head>',
             bodyid = opt.bodyid ? " id=\"" + opt.bodyid + "\"" : "";
         if (opt.cssfile) {
             iHTML += '<link rel="stylesheet" href="' + opt.cssfile + '" />';
@@ -264,6 +270,14 @@ var TinyEditor = {};
         if (val !== null && val !== '') {
             this.e.execCommand(cmd, 0, val);
         }
+    };
+    edit.prototype.insertHtml = function (val) {
+      if (this.ie) {
+        alert('Your browser does not support this function.');
+      } else {
+        this.e.execCommand('insertText', 0, val || null);
+        this.el.value = this.e.body.innerHTML;
+      }
     };
     edit.prototype.setfont = function () {
         this.e.execCommand('formatblock', 0);
