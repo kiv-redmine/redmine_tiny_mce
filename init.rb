@@ -7,6 +7,19 @@
 require 'redmine'
 require 'redmine_tiny_mce'
 
+ActionDispatch::Reloader.to_prepare do
+  require_dependency 'redmine/wiki_formatting/markdown/helper'
+  require_dependency 'redmine/wiki_formatting/textile/helper'
+
+  unless Redmine::WikiFormatting::Markdown::Helper.included_modules.include?(RedmineTinyMce::Patches::FormatterHelperPatch)
+    Redmine::WikiFormatting::Markdown::Helper.send(:include, RedmineTinyMce::Patches::FormatterHelperPatch)
+  end
+
+  unless Redmine::WikiFormatting::Textile::Helper.included_modules.include?(RedmineTinyMce::Patches::FormatterHelperPatch)
+    Redmine::WikiFormatting::Textile::Helper.send(:include, RedmineTinyMce::Patches::FormatterHelperPatch)
+  end
+end
+
 Redmine::Plugin.register :redmine_tiny_mce do
   name 'Redmine TinyMce plugin'
   author 'Strnadj <jan.strnadek@gamil.com>'

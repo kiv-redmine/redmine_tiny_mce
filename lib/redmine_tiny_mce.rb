@@ -4,6 +4,9 @@
 #
 # @author Strnadj <jan.strnadek@gmail.com>
 
+require 'redmine_tiny_mce/hooks/view_wiki_form_bottom'
+require 'redmine_tiny_mce/patches/formatter_helper_patch'
+
 module RedmineTinyMce
   class << self
     def allowed_tags

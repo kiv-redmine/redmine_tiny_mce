@@ -1,0 +1,9 @@
+.jstb_addAttachment {
+  background-image: url(../images/attach.png);
+}
+.jstb_addWikiLink {
+  background-image: url(../images/document.png);
+}
+.jstb_addComment {
+  background-image: url(../images/comment.png);
+}

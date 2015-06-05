@@ -17,7 +17,7 @@ module RedmineTinyMce
               controls:['bold','italic','underline','strikethrough','|','subscript','superscript','|',
                     'orderedlist','unorderedlist','|','outdent','indent','|','leftalign',
                     'centeralign','rightalign','blockjustify','|','unformat','|','undo','redo', 'n',
-                    'font','size','style','|','image','hr','link','unlink', '|', 'print', '|', 'vote', 'comments'],
+                    'font','size','style','|','image','hr','link','unlink', '|', 'print', '|', 'comments', 'page', 'attachment' ],
               footer:true,
               fonts:['Verdana','Arial','Georgia','Trebuchet MS'],
               xhtml:true,

@@ -1,0 +1,8 @@
+<script type="text/javascript">
+  window.editWiki = true;
+  window.attachmentTitle = "<%= l(:label_attachment_plural) %>";
+  window.wikipageTitle = "<%= l(:label_wiki_page_plural) %>";
+  window.wikiPages = <%= @project.wiki.pages.order(&:title).pluck(:title).to_json.html_safe %>;
+</script>
+
+<%= link_to_attachments @page %>

@@ -34,8 +34,11 @@ var TinyEditor = {};
         unorderedlist: [11, 'Insert Unordered List', 'a', 'insertunorderedlist'],
         unformat: [24, 'Remove Formatting', 'a', 'removeformat'],
         unlink: [23, 'Remove Hyperlink', 'a', 'unlink'],
-        vote: [ 26, 'Vote', 'a', 'vote' ],
-        comments: [ 27, 'Comments', 'insertHtml', '{{comments}}{{comment_form}}' ]
+
+        // This is only for edit wiki
+        comments:   [ 26, 'Comments', 'insertHtml', '{{comments}}{{comment_form}}' ],
+        page:       [ 27, 'Page', 'addWikiLink' ],
+        attachment: [ 28, 'Attachment', 'addAttachment' ]
     },
     offset = -30;
 
@@ -78,6 +81,19 @@ var TinyEditor = {};
                 t.insertHtml(x[3]);
               };
             }
+
+            if (x[2] === 'addAttachment') {
+              return function() {
+                t.addAttachment();
+              };
+            }
+
+            if (x[2] === 'addWikiLink') {
+              return function() {
+                t.addWikiLink();
+              };
+            }
+
             return function () {
                 t.insert(x[4], x[5], x[3]);
             };
@@ -165,7 +181,7 @@ var TinyEditor = {};
                     sel.options[x] = new Option(style[0], style[1]);
                 }
                 h.appendChild(sel);
-            } else if (c[id]) {
+            } else if (c[id] && ((c[id][0] >= 26 && window.editWiki) || (c[id][0] < 26))) {
                 div = document.createElement('div');
                 x = c[id];
                 pos = x[0] * offset;
@@ -270,6 +286,57 @@ var TinyEditor = {};
         if (val !== null && val !== '') {
             this.e.execCommand(cmd, 0, val);
         }
+    };
+    edit.prototype.addWikiLink = function() {
+      /** Show ajax modal with selection of attachments */
+      var html = $('<ul/>');
+      var that = this;
+      var length = window.wikiPages.length;
+
+      for (var index = 0; index < length; index++) {
+        var li = $('<li/>');
+        var a  = $('<a/>').attr('href', '#');
+        var file = window.wikiPages[index];
+        a.html(file);
+        a.on('click', function(evt) {
+          evt.preventDefault();
+          that.e.execCommand('insertText', 0, '[[' + $(this).html() + ']] ');
+          that.el.value = that.e.body.innerHTML;
+          hideModal();
+        });
+        li.append(a);
+        html.append(li);
+      }
+
+      html.prepend('<h3 class="title">' + window.wikipageTitle + '</h3>');
+      $('#ajax-modal').html(html).promise().done(function() {
+        showModal('ajax-modal', '400px');
+      });
+    };
+    edit.prototype.addAttachment = function() {
+      /** Show ajax modal with selection of attachments */
+      var html = $('<ul/>');
+      var that = this;
+
+      $('.icon-attachment').each(function() {
+        var li = $('<li/>');
+        var a  = $('<a/>').attr('href', '#');
+        var file = $(this).html();
+        a.html(file);
+        a.on('click', function(evt) {
+          evt.preventDefault();
+          that.e.execCommand('insertText', 0, 'attachment:' + file);
+          that.el.value = that.e.body.innerHTML;
+          hideModal();
+        });
+        li.append(a);
+        html.append(li);
+      });
+
+      html.prepend('<h3 class="title">' + window.attachmentTitle + '</h3>');
+      $('#ajax-modal').html(html).promise().done(function() {
+        showModal('ajax-modal', '400px');
+      });
     };
     edit.prototype.insertHtml = function (val) {
       if (this.ie) {
