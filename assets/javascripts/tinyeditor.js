@@ -300,7 +300,7 @@ var TinyEditor = {};
         a.html(file);
         a.on('click', function(evt) {
           evt.preventDefault();
-          that.e.execCommand('insertText', 0, '[[' + $(this).html() + ']] ');
+          that.e.execCommand('insertText', 0, ' [[' + $(this).html() + ']] ');
           that.el.value = that.e.body.innerHTML;
           hideModal();
         });
@@ -325,7 +325,7 @@ var TinyEditor = {};
         a.html(file);
         a.on('click', function(evt) {
           evt.preventDefault();
-          that.e.execCommand('insertText', 0, 'attachment:' + file);
+          that.e.execCommand('insertText', 0, ' attachment:' + file + ' ');
           that.el.value = that.e.body.innerHTML;
           hideModal();
         });

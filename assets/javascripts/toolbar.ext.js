@@ -14,7 +14,7 @@ jsToolBar.prototype.elements.addAttachment = {
         a.html(file);
         a.on('click', function(evt) {
           evt.preventDefault();
-          that.encloseLineSelection('', 'attachment:' + file);
+          that.encloseLineSelection('', ' attachment:' + file + ' ');
           hideModal();
         });
         li.append(a);
@@ -46,7 +46,7 @@ jsToolBar.prototype.elements.addWikiLink = {
         a.html(file);
         a.on('click', function(evt) {
           evt.preventDefault();
-          that.encloseLineSelection('', '[[' + $(this).html() + ']]');
+          that.encloseLineSelection('', ' [[' + $(this).html() + ']] ');
           hideModal();
         });
 
@@ -67,7 +67,7 @@ jsToolBar.prototype.elements.addComment = {
   title: 'Add comment',
   fn: {
     wiki: function() {
-      this.encloseLineSelection('', '{{comments}}{{comment_form}}');
+      this.encloseLineSelection('', ' {{comments}}{{comment_form}} ');
     }
   }
 };
